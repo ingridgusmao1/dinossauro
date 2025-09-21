@@ -1,0 +1,1 @@
+INSERT INTO "query-8" ("total_reservations") VALUES ('83');

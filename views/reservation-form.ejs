@@ -1,0 +1,142 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="main-content">
+        <div class="form-container reservation-form-container">
+            <h1>Réservez votre aventure préhistorique</h1>
+            <p class="form-subtitle">Plongez dans le monde des dinosaures avec JuraShow ! Remplissez le formulaire ci-dessous pour sécuriser votre visite.</p>
+
+            <% if (errors && errors.length > 0) { %>
+                <div class="error-messages">
+                    <ul>
+                        <% errors.forEach(error => { %>
+                            <li><span class="error-icon">⚠</span> <%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form id="reservationForm" method="POST" action="/reservations" class="reservation-form">
+                
+                <div class="form-group">
+                    <label for="name_buyer">Nom complet *</label>
+                    <input 
+                        type="text" 
+                        id="name_buyer" 
+                        name="name_buyer" 
+                        value="<%= oldData ? oldData.name_buyer : '' %>" 
+                        placeholder="Entrez votre nom complet"
+                        required 
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer_email"><span class="icon">✉️</span> Email *</label>
+                    <input 
+                        type="email" 
+                        id="buyer_email" 
+                        name="buyer_email" 
+                        value="<%= oldData ? oldData.buyer_email : '' %>" 
+                        placeholder="Entrez votre email"
+                        required 
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"><span class="icon">📞</span> Téléphone</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        value="<%= oldData ? oldData.phone : '' %>" 
+                        placeholder="Entrez votre numéro de téléphone"
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="dinosaur"> Dinosaure choisi *</label>
+                    <select id="dinosaur" name="dinosaur" required class="form-select">
+                        <option value="">Sélectionnez un dinosaure</option>
+                        <% dinosaurList.forEach(dino => { %>
+                            <option 
+                                value="<%= dino %>" 
+                                <%= (oldData && oldData.dinosaur === dino) ? 'selected' : '' %>
+                            >
+                                <%= dino === 'velociraptor' ? 'Vélociraptor' : 
+                                    dino === 'tyrannosaurus' ? 'Tyrannosaure' : 
+                                    dino === 'pterosaurus' ? 'Ptérosaure' : 
+                                    dino === 'therizinosaurus' ? 'Thérizinosaure' : 
+                                    dino === 'triceratops' ? 'Tricératops' : 
+                                    dino === 'plesiossauros' ? 'Plésiosaure' : dino %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket_id">Type de billet *</label>
+                    <select id="ticket_id" name="ticket_id" required class="form-select">
+                        <option value="">Sélectionnez un type de billet</option>
+                        <% if (tickets && tickets.length > 0) { %>
+                            <% tickets.forEach(ticket => { %>
+                                <option 
+                                    value="<%= ticket.id %>" 
+                                    <%= (oldData && oldData.ticket_id == ticket.id) ? 'selected' : '' %>
+                                >
+                                    <%= ticket.name %> - <%= ticket.price %>€
+                                </option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity"></span> Quantité *</label>
+                    <input 
+                        type="number" 
+                        id="quantity" 
+                        name="quantity" 
+                        value="<%= oldData ? oldData.quantity : 1 %>" 
+                        min="1" 
+                        max="10" 
+                        required 
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="payment"><span class="icon">💳</span> Mode de paiement *</label>
+                    <select id="payment" name="payment" required class="form-select">
+                        <option value="">Sélectionnez un mode</option>
+                        <option value="carte_credit" <%= (oldData && oldData.payment === 'carte_credit') ? 'selected' : '' %>>Carte de crédit</option>
+                        <option value="paypal" <%= (oldData && oldData.payment === 'paypal') ? 'selected' : '' %>>PayPal</option>
+                        <option value="virement" <%= (oldData && oldData.payment === 'virement') ? 'selected' : '' %>>Virement bancaire</option>
+                        <option value="especes" <%= (oldData && oldData.payment === 'especes') ? 'selected' : '' %>>Espèces (sur place)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date"><span class="icon"></span> Date de visite *</label>
+                    <input 
+                        type="date" 
+                        id="date" 
+                        name="date" 
+                        value="<%= oldData ? oldData.date : '' %>" 
+                        required 
+                        min="<%= minDate %>"
+                        class="form-input"
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Confirmer la réservation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

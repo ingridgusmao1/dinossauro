@@ -1,0 +1,95 @@
+<%- include('partials/header') %>
+
+<div class="success-container">
+    
+    <!-- Ícone de sucesso -->
+    <div class="success-icon">
+        <div>
+            <span>✓</span>
+        </div>
+    </div>
+    
+    <h1>Réservation Confirmée!</h1>
+    
+    <p>Félicitations! Votre réservation a été enregistrée avec succès. 
+        Vous allez bientôt recevoir un email de confirmation à l'adresse <strong><%= reservation.buyer_email %></strong>.
+    </p>
+    
+    <!-- Détails de la réservation -->
+    <div class="reservation-details">
+        <h3>Détails de votre réservation</h3>
+        
+        <div class="detail-row">
+            <span>Numéro de réservation:</span>
+            <span>#<%= reservationId %></span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Nom:</span>
+            <span><%= reservation.name_buyer %></span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Email:</span>
+            <span><%= reservation.buyer_email %></span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Attraction:</span>
+            <span>
+                <%= ticket.dinosaur === 'velociraptor' ? 'Vélociraptor' : 
+                    ticket.dinosaur === 'tyrannosaurus' ? 'Tyrannosaure' :
+                    ticket.dinosaur === 'pterosaurus' ? 'Ptérosaure' :
+                    ticket.dinosaur === 'therizinosaurus' ? 'Thérizinosaure' :
+                    ticket.dinosaur === 'triceratops' ? 'Tricératops' :
+                    ticket.dinosaur === 'plesiossauros' ? 'Plésiosaure' : ticket.dinosaur %>
+                (<%= ticket.type %>)
+            </span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Date de visite:</span>
+            <span><%= new Date(reservation.visit_date).toLocaleDateString('fr-FR') %></span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Nombre de billets:</span>
+            <span><%= reservation.quantity %></span>
+        </div>
+        
+        <div class="detail-row">
+            <span>Mode de paiement:</span>
+            <span>
+                <%= reservation.payment_method === 'carte_credit' ? 'Carte de crédit' :
+                    reservation.payment_method === 'paypal' ? 'PayPal' :
+                    reservation.payment_method === 'virement' ? 'Virement bancaire' :
+                    reservation.payment_method === 'especes' ? 'Espèces (sur place)' : reservation.payment_method %>
+            </span>
+        </div>
+        
+        <div class="detail-row total-row">
+            <span>TOTAL:</span>
+            <span>€<%= totalPrice.toFixed(2) %></span>
+        </div>
+    </div>
+    
+    <!-- Informações importantes -->
+    <div class="important-info">
+        <h4><span>ℹ️</span> Informations importantes</h4>
+        <ul>
+            <li>Présentez-vous à l'accueil 15 minutes avant votre visite</li>
+            <li>Munissez-vous d'une pièce d'identité et de ce numéro de réservation</li>
+            <li>Les enfants de moins de 12 ans doivent être accompagnés d'un adulte</li>
+            <li>En cas d'annulation, contactez-nous au moins 24h à l'avance</li>
+        </ul>
+    </div>
+    
+    <!-- Actions -->
+    <div class="actions">
+        <a href="/">Retour à l'accueil</a>
+        <button onclick="window.print()">Imprimer</button>
+        <a href="/reservations">Nouvelle réservation</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

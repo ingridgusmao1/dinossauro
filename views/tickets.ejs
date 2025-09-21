@@ -1,0 +1,120 @@
+<%- include('partials/header') %>
+
+<div class="tickets-container">
+    <h1>Nos Billets d'Attraction</h1>
+    
+    <div class="filter-section">
+        <h3>Filtrer par attraction:</h3>
+        <select id="dinosaurFilter">
+            <option value="">Toutes les attractions</option>
+            <option value="velociraptor" <%= selectedDinosaur === 'velociraptor' ? 'selected' : '' %>>Vélociraptor</option>
+            <option value="tyrannosaurus" <%= selectedDinosaur === 'tyrannosaurus' ? 'selected' : '' %>>Tyrannosaure</option>
+            <option value="pterosaurus" <%= selectedDinosaur === 'pterosaurus' ? 'selected' : '' %>>Ptérosaure</option>
+            <option value="therizinosaurus" <%= selectedDinosaur === 'therizinosaurus' ? 'selected' : '' %>>Thérizinosaure</option>
+            <option value="triceratops" <%= selectedDinosaur === 'triceratops' ? 'selected' : '' %>>Tricératops</option>
+            <option value="plesiossauros" <%= selectedDinosaur === 'plesiossauros' ? 'selected' : '' %>>Plésiosaure</option>
+        </select>
+    </div>
+    
+    <div class="tickets-grid">
+        <% if (tickets && Array.isArray(tickets) && tickets.length > 0) { %>
+            <% tickets.forEach(function(ticket) { %>
+                <%
+                    var dinoDisplayName = "Attraction";
+                    if (ticket && ticket.dinossaur) {
+                        var dinoLower = ticket.dinossaur.toString().toLowerCase();
+                        if (dinoLower === "velociraptor") dinoDisplayName = "Vélociraptor";
+                        else if (dinoLower === "tyrannosaurus") dinoDisplayName = "Tyrannosaure";
+                        else if (dinoLower === "pterosaurus") dinoDisplayName = "Ptérosaure";
+                        else if (dinoLower === "therizinosaurus") dinoDisplayName = "Thérizinosaure";
+                        else if (dinoLower === "triceratops") dinoDisplayName = "Tricératops";
+                        else if (dinoLower === "plesiossauros") dinoDisplayName = "Plésiosaure";
+                        else dinoDisplayName = ticket.dinossaur.charAt(0).toUpperCase() + ticket.dinossaur.slice(1);
+                    }
+
+                    var ticketType = "Standard";
+                    if (ticket && ticket.type && typeof ticket.type === "string") {
+                        ticketType = ticket.type.charAt(0).toUpperCase() + ticket.type.slice(1);
+                    }
+
+                    var ticketName = ticket.name || (ticketType + " - " + dinoDisplayName);
+
+                    var price = 0;
+                    if (ticket && ticket.price !== null && ticket.price !== undefined) {
+                        if (typeof ticket.price === "number") {
+                            price = ticket.price;
+                        } else if (typeof ticket.price === "string") {
+                            price = parseFloat(ticket.price.replace(/[^\d.,]/g, "").replace(",", "."));
+                            if (isNaN(price)) price = 0;
+                        }
+                    }
+                    var formattedPrice = price.toFixed(2);
+
+                    var description = "Découvrez cette attraction avec JuraShow !";
+                    if (ticket && ticket.description && typeof ticket.description === "string" && ticket.description.trim()) {
+                        description = ticket.description;
+                    }
+
+                    var ticketId = 1;
+                    if (ticket && ticket.id && !isNaN(parseInt(ticket.id))) {
+                        ticketId = parseInt(ticket.id);
+                    } else if (ticket && ticket.ticket_id && !isNaN(parseInt(ticket.ticket_id))) {
+                        ticketId = parseInt(ticket.ticket_id);
+                    }
+
+                    var dinoLower = "";
+                    if (ticket && ticket.dinossaur) {
+                        dinoLower = ticket.dinossaur.toString().toLowerCase();
+                    }
+                %>
+                <div class="ticket-card" data-dinosaur="<%= dinoLower %>">
+                    
+                    <div class="ticket-header">
+                        <h3><%= dinoDisplayName %></h3>
+                        <span class="ticket-type"><%= ticketType %></span>
+                    </div>
+                    
+                    <div class="ticket-body">
+                        <p><%= description %></p>
+                        
+                        <div class="ticket-price">
+                            <span>€<%= formattedPrice %></span>
+                            <span>par personne</span>
+                        </div>
+                        <div class="reserve-button">
+                        <a href="/reservations?ticket_id=<%= ticketId %>" class="reserve-btn">
+                            Réserver maintenant
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="no-tickets-message">
+                <h3>Aucun billet disponible</h3>
+                <p>Nous préparons de nouvelles attractions excitantes. Revenez bientôt !</p>
+                <a href="/" class="cta-button">Retour à l'accueil</a>
+            </div>
+        <% } %>
+    </div>
+    
+    <div class="info-section">
+        <h3>Informations importantes</h3>
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>Billets</h4>
+                <p>Les billets sont valables uniquement pour la date sélectionnée. Modification possible jusqu'à 24h avant.</p>
+            </div>
+            <div class="info-card">
+                <h4> Horaires</h4>
+                <p>Ouvrez tous les jours de 9h à 18h. Dernière admission à 17h.</p>
+            </div>
+            <div class="info-card">
+                <h4>Âges</h4>
+                <p>Tarif enfant: 3-12 ans. Gratuit pour les moins de 3 ans.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

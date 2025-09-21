@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<div class="main-content">
+    <div class="menu-section">
+        <ul class="dinosaur-list">
+            <% dinosaurList.forEach(dinosaur => { %>
+                <li class="dinosaur-item" data-dinosaur="<%= dinosaur %>">
+                    <%= dinosaur === 'velociraptor' ? 'Vélociraptor' : 
+                        dinosaur === 'tyrannosaurus' ? 'Tyrannosaure' :
+                        dinosaur === 'pterosaurus' ? 'Ptérosaure' :
+                        dinosaur === 'therizinosaurus' ? 'Thérizinosaure' :
+                        dinosaur === 'triceratops' ? 'Tricératops' :
+                        dinosaur === 'plesiossauros' ? 'Plésiosaure' : dinosaur %>
+                </li>
+            <% }) %>
+        </ul>
+        
+        <div class="cta-section">
+            <a href="/reservations" class="cta-button">Réserver maintenant</a>
+        </div>
+    </div>
+    
+    <div class="image-display">
+        <img id="dinosaurImage" class="dinosaur-image" alt="Dinosaure" />
+        <div id="dinosaurDescription" class="dinosaur-description"></div>
+        <div id="placeholderText" class="placeholder-text">
+            Survolez un dinosaure pour découvrir son attraction
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

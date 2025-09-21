@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<div class="error-container">
+    
+    <div class="error-icon">
+        <div>
+            <span>⚠</span>
+        </div>
+    </div>
+    
+    <h1><%= title || 'Erreur' %></h1>
+    
+    <p><%= message || 'Une erreur est survenue' %></p>
+    
+    <% if (locals.error && locals.error.stack && process.env.NODE_ENV === 'development') { %>
+        <div class="error-details">
+            <h4>Détails de l'erreur (mode développement):</h4>
+            <pre><%= locals.error.stack %></pre>
+        </div>
+    <% } %>
+    
+    <div class="actions">
+        <a href="/">Retour à l'accueil</a>
+        <button onclick="history.back()">Page précédente</button>
+        <button onclick="location.reload()">Actualiser</button>
+    </div>
+    
+    <div class="help-suggestions">
+        <h4><span>💡</span> Suggestions</h4>
+        <ul>
+            <li>Vérifiez votre connexion internet</li>
+            <li>Assurez-vous que tous les champs sont correctement remplis</li>
+            <li>Essayez d'actualiser la page</li>
+            <li>Si le problème persiste, contactez notre support</li>
+            <li>Retournez à la page d'accueil et réessayez</li>
+        </ul>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
