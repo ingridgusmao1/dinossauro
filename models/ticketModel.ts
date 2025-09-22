@@ -142,7 +142,7 @@ export class TicketModel {
         return this.getFallbackTickets();
       }
     } catch (error) {
-      console.error("Erro ao buscar todos os tickets do banco:", error);
+      console.error("Erreur", error);
       console.log("Utilisation des données de fallback pour les tickets");
       return this.getFallbackTickets();
     }
@@ -189,7 +189,7 @@ export class TicketModel {
         );
       }
     } catch (error) {
-      console.error("Erro ao buscar tickets por dinossauro:", error);
+      console.error("Erreur", error);
       const fallbackTickets = this.getFallbackTickets();
       return fallbackTickets.filter(ticket => 
         ticket.dinossaur.toLowerCase() === dinosaur.toLowerCase()
@@ -197,13 +197,12 @@ export class TicketModel {
     }
   }
 
-  // Verificar se ticket está disponível
   static async isTicketAvailable(ticketId: number): Promise<boolean> {
     try {
       const ticket = await this.getTicketById(ticketId);
       return !!ticket;
     } catch (error) {
-      console.error("Erro ao verificar disponibilidade do ticket:", error);
+      console.error("Erreur", error);
       return false;
     }
   }
