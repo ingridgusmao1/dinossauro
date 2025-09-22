@@ -77,8 +77,8 @@ export class ReservationModel {
 
       return result.rows[0].reservation_id;
     } catch (error) {
-      console.error("Erro ao criar reserva:", error);
-      throw new Error("Falha ao processar reserva");
+      console.error("Erreur", error);
+      throw new Error("Erreur");
     }
   }
 
@@ -98,7 +98,7 @@ export class ReservationModel {
 
       return this.normalizeReservationRow(row);
     } catch (error) {
-      console.error("Erro ao buscar reserva:", error);
+      console.error("Erreur", error);
       return null;
     }
   }
@@ -135,7 +135,7 @@ export class ReservationModel {
       
       return result.rows.map((row: RawReservationRow) => this.normalizeReservationRow(row));
     } catch (error) {
-      console.error("Erro ao buscar reservas por email:", error);
+      console.error("Erreur:", error);
       return [];
     }
   }
@@ -159,7 +159,7 @@ export class ReservationModel {
 
       return totalReservations < maxCapacity;
     } catch (error) {
-      console.error("Erro ao verificar disponibilidade de data:", error);
+      console.error("Erreur", error);
       return true; 
     }
   }
@@ -219,7 +219,7 @@ export class ReservationModel {
       
       return result && result.rows && result.rows.length > 0;
     } catch (error) {
-      console.error("Erro ao atualizar reserva:", error);
+      console.error("Erreur", error);
       return false;
     }
   }
@@ -234,7 +234,7 @@ export class ReservationModel {
 
       return result && result.rows && result.rows.length > 0;
     } catch (error) {
-      console.error("Erro ao deletar reserva:", error);
+      console.error("Erreur", error);
       return false;
     }
   }
@@ -252,7 +252,7 @@ export class ReservationModel {
       
       return result.rows.map((row: RawReservationRow) => this.normalizeReservationRow(row));
     } catch (error) {
-      console.error("Erro ao listar reservas:", error);
+      console.error("Erreur", error);
       return [];
     }
   }
@@ -275,7 +275,7 @@ export class ReservationModel {
       if (!result || !result.rows) return [];
       return result.rows;
     } catch (error) {
-      console.error("Erro ao buscar estatísticas:", error);
+      console.error("Erreur", error);
       return [];
     }
   }
